@@ -23,8 +23,8 @@ class camera {
                 color pixel_color(0,0,0);
                 for (int sample = 0; sample < samples_per_pixel; ++sample) {
                     ray r = get_ray(i, j);
-                    float temp = static_cast<float>(i)/image_width;
-                    pixel_color += ray_color(r, max_depth, world, temp);
+                    // float temp = static_cast<float>(i)/image_width;
+                    pixel_color += ray_color(r, max_depth, world);
                 
                 }
                 write_color(std::cout, pixel_color, samples_per_pixel);
@@ -85,7 +85,7 @@ class camera {
         return (px * pixel_delta_u) + (py * pixel_delta_v);
     }
 
-    color ray_color(const ray& r, int depth, const hittable& world, float i) const {
+    color ray_color(const ray& r, int depth, const hittable& world) const {
         hit_record rec;
 
         // If we've exceeded the ray bounce limit, no more light is gathered.
@@ -94,7 +94,7 @@ class camera {
 
         if (world.hit(r, interval(0.001, infinity), rec)) {
             vec3 direction = rec.normal + random_unit_vector();
-            return i * ray_color(ray(rec.p, direction), depth-1, world, i);
+            return 0.5 * ray_color(ray(rec.p, direction), depth-1, world);
         }
 
         vec3 unit_direction = unit_vector(r.direction());
