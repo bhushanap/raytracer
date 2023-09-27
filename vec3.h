@@ -111,8 +111,8 @@ inline vec3 unit_vector(vec3 v) {
 inline vec3 random_in_unit_sphere() {
     while (true) {
         auto p = vec3::random(-1,1);
-        if (p.length_squared() < 1)
-            return p;
+        // if (p.length_squared() < 1)
+        return p;
     }
 }
 
